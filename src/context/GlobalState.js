@@ -1,82 +1,104 @@
-import React, {createContext, useReducer} from 'react'
-import {reducer} from '../context/Reducer'
+import React, { createContext, useReducer } from 'react';
+import { reducer } from '../context/Reducer';
 
 //default state
 const defaultState = {
- transactions: JSON.parse(localStorage.getItem('transactions')) || [],
- vouchers: [],
- debt: [],
- errorMessage: '',
-}
+  balance: 1000,
+  amount: 0,
+  transactions: /*JSON.parse(localStorage.getItem('transactions')) ||*/ [],
+  giftCards: [],
+  message: '',
+  giftCardCreateOption: 'creating',
+  isLoading: false,
+};
 
 //create context
-export const GlobalContext = createContext(defaultState)
+export const GlobalContext = createContext(defaultState);
 
 //Provider
 
-export const GlobalProvider = ({children}) => {
- const [state, dispatch] = useReducer(reducer, defaultState)
- localStorage.setItem('transactions', JSON.stringify(state.transactions))
+export const GlobalProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, defaultState);
+  localStorage.setItem('transactions', JSON.stringify(state.transactions));
 
- //actions
- 
- function addTransaction (transaction) {
-  dispatch({
-   type: 'ADD_TRANSACTION',
-   payload: transaction
-  })
- }
-
- function deleteTransaction(id) {
-  dispatch({
-   type: 'DELETE_TRANSACTION',
-   payload: id
-  })
- }
-
- function openModal ({title, amount}) {
-  if(!title) {
-     dispatch({
-   type: 'TITLE_ERROR'
-  })
+  //actions
+  function addTransaction(transaction) {
+    dispatch({
+      type: 'ADD_TRANSACTION',
+      payload: transaction,
+    });
   }
 
-  if(!amount) {
-   dispatch({
-    type: 'AMOUNT_ERROR',
-   })
+  function getAmount(amount) {
+    dispatch({
+      type: 'GET_AMOUNT',
+      payload: amount,
+    });
   }
 
-  if(!amount && !title) {
-   dispatch({
-    type: 'EMPTY_FIELD',
-   })
+  function createGiftCard() {
+    dispatch({ type: 'CREATING' });
+  }
+  function creatingGiftCard() {
+    dispatch({ type: 'CREATE' });
   }
 
-  if(title && amount) {
-   dispatch({
-    type: 'ADDITION_SUCCESSFUL',
-   })
+  function startLoader() {
+    dispatch({ type: 'START_LOADER' });
+  }
+  function endLoader() {
+    dispatch({ type: 'END_LOADER' });
   }
 
- }
+  function openModal({ retailer, amount }) {
+    if (!retailer) {
+      dispatch({
+        type: 'RETAILER_ERROR',
+      });
+    }
 
- function closeModal () {
-  dispatch({
-    type: 'CLOSE_MODAL',
-   })
- }
+    if (!amount) {
+      dispatch({
+        type: 'AMOUNT_ERROR',
+      });
+    }
 
- return (
-  <GlobalContext.Provider value = {{
-   transactions: state.transactions,
-   addTransaction,
-   deleteTransaction,
-   openModal, 
-   closeModal,
-   errorMessage: state.errorMessage,
-  }}>
-   {children}
-  </GlobalContext.Provider>
- )
-}
+    if (!amount && !retailer) {
+      dispatch({
+        type: 'EMPTY_FIELD',
+      });
+    }
+
+    if (retailer && amount) {
+      dispatch({
+        type: 'ADDITION_SUCCESSFUL',
+      });
+    }
+  }
+
+  function closeModal() {
+    dispatch({
+      type: 'CLOSE_MODAL',
+    });
+  }
+
+  return (
+    <GlobalContext.Provider
+      value={{
+        state,
+        transactions: state.transactions,
+        addTransaction,
+        getAmount,
+        openModal,
+        closeModal,
+        createGiftCard,
+        creatingGiftCard,
+        startLoader,
+        endLoader,
+        errorMessage: state.errorMessage,
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
+};
