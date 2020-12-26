@@ -157,6 +157,7 @@ h4 {
   color: var(--light-grey);
 }
 .voucher {
+  position: relative;
   padding: 0.85rem;
   background-color: #fff;
   width: fit-content;
@@ -181,6 +182,10 @@ h4 {
   text-align: center;
 }
 
+.voucher-display {
+  position: relative;
+}
+
 .QRCode {
   margin: 0 auto;
 }
@@ -191,6 +196,15 @@ h4 {
   height: 16.3rem;
   padding-top: 2rem;
 }
+.overlay-loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
 .dropdown {
   width: 100%;
   padding: 1rem;
@@ -315,6 +329,59 @@ span:nth-child(2) {
 }
 .unselected {
   border-bottom: 1px solid #141313;
+}
+
+.Modal {
+  position: relative;
+  width: 17rem;
+  height: 10rem;
+  border-radius: 5px;
+  margin: 30vh auto;
+  background-color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  padding: 3rem;
+  border: none;
+  outline: none;
+  box-shadow: var(--box-shadow-container);
+}
+
+.closeModalBtn {
+  position: absolute;
+  top: -10px;
+  right: -8px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  background-color: var(--red);
+  border: none;
+  color: var(--white);
+  transition: 0.3s ease;
+}
+
+.closeModalBtn:hover {
+  background-color: #b31402;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(46, 39, 39, 0.534);
+}
+
+.scale-up-center {
+  animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @media only screen and (max-width: 540px) {
