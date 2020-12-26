@@ -1,0 +1,2 @@
+create project sub directpry and make jsPDF save gift card into it
+Make the subdirectory hidden.

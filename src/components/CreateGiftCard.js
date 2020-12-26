@@ -7,7 +7,7 @@ import { css } from '@emotion/core';
 /*Component was export was export as default as the lazy feature only supports default export*/
 const CreatedGiftCard = lazy(() => import('./CreatedGiftCard'));
 /*this resets the default emotion css config*/
-const override = css`
+export const override = css`
   display: block;
   margin: 0 auto;
   border-color: red;
@@ -30,7 +30,6 @@ export const CreateGiftCard = () => {
   const {
     state,
     addTransaction,
-    openModal,
     creatingGiftCard,
     startLoader,
     getAmount,
@@ -201,7 +200,7 @@ export const CreateGiftCard = () => {
               placeholder='Please enter a password...'
             />
           </div> */}
-          <button className='btn'>DONE</button>
+          <button className='btn'>NEXT</button>
         </form>
       )}
       {/* <Modal /> */}
